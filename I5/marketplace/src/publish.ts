@@ -2,6 +2,7 @@ import { SuiClient, SuiObjectChangeCreated, SuiObjectChangePublished, SuiTransac
 import { Keypair } from '@mysten/sui/cryptography';
 import { ADMIN_KEYPAIR } from './consts';
 import { Transaction } from '@mysten/sui/transactions';
+import path from 'path';
 
 import { execSync } from 'child_process';
 
@@ -26,8 +27,8 @@ export class PublishSingleton {
     }) {
         client ??= new SuiClient({ url: getFullnodeUrl('localnet') });
         signer ??= ADMIN_KEYPAIR;
-        packagePath ??= `${__dirname}/../../sword`;
-        rulesPath ??= `${__dirname}/../../kiosk_rules`;
+        packagePath ??= path.resolve(__dirname, '..', '..', 'sword');
+        rulesPath ??= path.resolve(__dirname, '..', '..', 'kiosk_rules');
         royalties ??= {
             basisPoints: 100, // 1%
             minRoyaltiesAmount: "10000000", // 0.01 SUI

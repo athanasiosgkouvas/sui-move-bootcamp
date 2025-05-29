@@ -2,6 +2,7 @@ import { SuiClient, SuiObjectChangeCreated, SuiObjectChangePublished, SuiTransac
 import { Keypair } from '@mysten/sui/cryptography';
 import { ADMIN_KEYPAIR } from './consts';
 import { Transaction } from '@mysten/sui/transactions';
+import path from 'path';
 
 import { execSync } from 'child_process';
 
@@ -21,7 +22,7 @@ export class PublishSingleton {
             keypair = ADMIN_KEYPAIR;
         }
         if (!packagePath) {
-            packagePath = `${__dirname}/../../fixed_supply`;
+            packagePath = path.resolve(__dirname, '..', '..', 'fixed_supply');
         }
         if (!PublishSingleton.instance) {
             const resp = await publishPackage(client, keypair, packagePath);
