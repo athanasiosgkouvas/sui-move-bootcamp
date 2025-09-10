@@ -49,25 +49,19 @@ fun test_mint() {
 // Demonstrate drop vs non-drop semantics
 #[test]
 fun test_drop_semantics() {
-    let mut _test = test_scenario::begin(@0xCAFE);
-
-    // 1) Ignoring a value in a sequence requires drop
+    // 1) Ignoring a value requires `drop`
     let _pebble = make_pebble(
         1,
-    ); // OK: Pebble has drop → Show linter error when drop ability is removed
+    ); // OK: Pebble has `drop` → Show linter error when drop ability is removed
 
-    // 2) Overwriting a variable drops the old value → requires drop
+    // 2) Overwriting a variable drops the old value → requires `drop`
     let mut _pebble2 = make_pebble(2);
-    _pebble2 = make_pebble(3); // OK for Pebble (has drop)
+    _pebble2 = make_pebble(3); // OK: Pebble has `drop`
 
     // 3) A type WITHOUT drop cannot be ignored/overwritten implicitly.
     // Correct way: explicitly CONSUME it (e.g., in this test via destroy)
     let rock = make_rock(4);
-    destroy(
-        rock,
-    ); // Consumes Rock → Comment this line out to see the linter error message
-
-    _test.end();
+    destroy(rock); // Consumes Rock → Comment this line out to see the linter error message
 }
 
 #[test_only]
