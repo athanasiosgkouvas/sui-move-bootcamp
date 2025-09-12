@@ -1,5 +1,4 @@
 module display::hero;
-
 use std::string::String;
 use sui::display;
 use sui::package;
@@ -14,7 +13,7 @@ public struct Hero has key, store {
 
 fun init(otw: HERO, ctx: &mut TxContext) {
     let publisher = package::claim(otw, ctx);
-    
+
     // setup the display
 }
 
@@ -27,7 +26,9 @@ public fun mint(name: String, blob_id: String, ctx: &mut TxContext): Hero {
 }
 
 #[test_only]
-use sui::{test_scenario as ts, test_utils::assert_eq};
+use sui::{test_scenario as ts};
+#[test_only]
+use std::unit_test::assert_eq;
 #[test_only]
 use sui::display::Display;
 #[test_only]
@@ -43,13 +44,13 @@ fun test_publisher_receives_the_display_object() {
 
     let display = ts.take_from_sender<Display<Hero>>();
     let fields = display.fields();
-    assert_eq(display.version(), 1);
-    assert_eq(*fields.get(&b"name".to_string()), b"{name}".to_string());
-    assert_eq(
+    assert_eq!(display.version(), 1);
+    assert_eq!(*fields.get(&b"name".to_string()), b"{name}".to_string());
+    assert_eq!(
         *fields.get(&b"image_url".to_string()),
-        b"https://aggregator.walrus-testnet.walrus.space/v1/blobs/{image_url}".to_string(),
+        b"https://aggregator.walrus-testnet.walrus.space/v1/blobs/{blob_id}".to_string(),
     );
-    assert_eq(
+    assert_eq!(
         *fields.get(&b"description".to_string()),
         b"{name} - A true Hero of the Sui ecosystem!".to_string(),
     );
