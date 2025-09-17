@@ -1,5 +1,4 @@
 module abilities_events_params::abilities_events_params;
-
 use std::string::String;
 use sui::event;
 
@@ -36,7 +35,9 @@ use sui::test_scenario as ts;
 #[test_only]
 use sui::test_scenario::{take_shared, return_shared};
 #[test_only]
-use sui::test_utils::{destroy, assert_eq};
+use sui::test_utils::{destroy};
+#[test_only]
+use std::unit_test::assert_eq;
 
 //--------------------------------------------------------------
 //  Test 1: Hero Creation
@@ -56,7 +57,7 @@ fun test_hero_creation() {
     //Get hero Registry
 
     let hero = mint_hero(b"Flash".to_string(), test.ctx());
-    assert_eq(hero.name, b"Flash".to_string());
+    assert_eq!(hero.name, b"Flash".to_string());
 
     destroy(hero);
     test.end();
@@ -74,7 +75,7 @@ fun test_hero_creation() {
 //      5. Assert that the `owner` field of the emitted event matches the expected address (e.g., @USER).
 //--------------------------------------------------------------
 #[test]
-fun test_event_thrown() { assert_eq(1, 1); }
+fun test_event_thrown() { assert_eq!(1, 1); }
 
 //--------------------------------------------------------------
 //  Test 3: Medal Awarding
@@ -90,4 +91,4 @@ fun test_event_thrown() { assert_eq(1, 1); }
 //      7. Consider creating a shared `MedalStorage` object to manage the available medals.
 //--------------------------------------------------------------
 #[test]
-fun test_medal_award() { assert_eq(1, 1); }
+fun test_medal_award() { assert_eq!(1, 1); }
