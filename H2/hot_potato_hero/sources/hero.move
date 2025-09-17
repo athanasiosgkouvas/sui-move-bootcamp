@@ -1,5 +1,4 @@
 module hot_potato_hero::hero;
-
 use std::string::String;
 use std::type_name::{Self, TypeName};
 use sui::balance::{Self, Balance};
@@ -93,7 +92,9 @@ public fun confirm_level_up(request: LevelUpRequest, policy: &LevelUpgradePolicy
 
 // Test Only
 #[test_only]
-use sui::{test_scenario as ts, test_utils::assert_eq};
+use sui::{test_scenario as ts};
+#[test_only]
+use std::unit_test::assert_eq;
 #[test_only]
 use sui::coin::Self;
 
@@ -141,9 +142,9 @@ public fun test_cannot_confirm_level_up_request_when_insufficient_weight() {
         let pyament_coin = coin::mint_for_testing(PAYMENT_FEE_BASE, ts.ctx());
         let mut hero = ts.take_from_sender<Hero>();
         let mut request = level_up_request();
-        assert_eq(request.rules.size(), 0);
+        assert_eq!(request.rules.size(), 0);
         collect_payment_proof(&mut request, &mut policy, pyament_coin);
-        assert_eq(request.rules.size(), 1);
+        assert_eq!(request.rules.size(), 1);
         confirm_level_up(request, &policy, &mut hero)
     };
 
@@ -170,20 +171,20 @@ public fun test_can_confirm_level_up_request_with_two_single_weighted_proofs() {
         let mut hero = ts.take_from_sender<Hero>();
         let mut request = level_up_request();
 
-        assert_eq(request.rules.size(), 0);
+        assert_eq!(request.rules.size(), 0);
         collect_payment_proof(&mut request, &mut policy, pyament_coin);
-        assert_eq(request.rules.size(), 1);
+        assert_eq!(request.rules.size(), 1);
 
         // only accessible in test
         hero.level_points = 91;
 
         collect_level_bonus_proof(&mut request, &hero);
-        assert_eq(request.rules.size(), 2);
+        assert_eq!(request.rules.size(), 2);
 
         confirm_level_up(request, &policy, &mut hero);
 
-        assert_eq(hero.level, 2);
-        assert_eq(hero.level_points, 0);
+        assert_eq!(hero.level, 2);
+        assert_eq!(hero.level_points, 0);
 
         ts::return_shared(policy);
         ts.return_to_sender(hero);
@@ -214,14 +215,14 @@ public fun test_can_confirm_level_up_request_with_one_double_weighted_proof() {
         // only accessible in test
         hero.level_points = 100;
 
-        assert_eq(request.rules.size(), 0);
+        assert_eq!(request.rules.size(), 0);
         collect_level_reached_proof(&mut request, &hero);
-        assert_eq(request.rules.size(), 1);
+        assert_eq!(request.rules.size(), 1);
 
         confirm_level_up(request, &policy, &mut hero);
 
-        assert_eq(hero.level, 2);
-        assert_eq(hero.level_points, 0);
+        assert_eq!(hero.level, 2);
+        assert_eq!(hero.level_points, 0);
 
         ts::return_shared(policy);
         ts.return_to_sender(hero);

@@ -1,5 +1,4 @@
 module weapon::weapon;
-
 use std::ascii::String;
 use std::type_name;
 use sui::package::{Self, Publisher};
@@ -39,7 +38,7 @@ public fun name(weapon: &Weapon): String {
 
 entry fun whitelist_witness<T>(p: &Publisher, allow_list: &mut AllowList) {
     assert!(p.from_module<WEAPON>(), EInvalidPublisher);
-    let witness_type = type_name::get_with_original_ids<T>().into_string();
+    let witness_type = type_name::with_original_ids<T>().into_string();
     let (already_exists, already_whitelisted) = contains_and_is_whitelisted(
         witness_type,
         allow_list,
@@ -55,7 +54,7 @@ entry fun whitelist_witness<T>(p: &Publisher, allow_list: &mut AllowList) {
 
 entry fun blacklist_witness<T>(p: &Publisher, allow_list: &mut AllowList) {
     assert!(p.from_module<WEAPON>(), EInvalidPublisher);
-    let witness_type = type_name::get_with_original_ids<T>().into_string();
+    let witness_type = type_name::with_original_ids<T>().into_string();
     let (already_exists, already_whitelisted) = contains_and_is_whitelisted(
         witness_type,
         allow_list,
