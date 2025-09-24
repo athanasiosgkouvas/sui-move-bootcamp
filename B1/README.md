@@ -1,5 +1,7 @@
 ## Sui & Move Bootcamp
 
+## [ B1 Slides - An intro to Sui Move](https://docs.google.com/presentation/d/1K83nXHSGqQMs0be8Yz33iZdmm-lSR27WPBPCIczHPMA/edit?usp=sharing)
+
 ### Move Basic Concepts
 
 ##### What you will learn in this module:
